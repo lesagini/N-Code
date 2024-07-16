@@ -116,6 +116,7 @@ string Parser::convertDateTimeFormat(const string &time, const string &date)
         tm.tm_year = std::stoi("20" + date.substr(4, 2)) - 1900;
         time_t t = mktime(&tm);
         std::tm gmtm;
+
         #ifdef _WIN32
         gmtime_s(&gmtm, &t);  // Windows
         #else
@@ -127,6 +128,7 @@ string Parser::convertDateTimeFormat(const string &time, const string &date)
     }
     time_t t = mktime(&tm);
     std::tm gmtm;
+  
     #ifdef _WIN32
     gmtime_s(&gmtm, &t);  // Windows
     #else
