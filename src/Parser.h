@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <map>
 
 using namespace std;
@@ -14,6 +15,7 @@ public:
     {
         string type;
         string time;
+        string timestamp;
         string positionValidity;
         string latitude;
         string longitude;
@@ -34,7 +36,8 @@ public:
 private:
     Data parseSentence(const string &sentence);
     vector<string> split(const string &s, char delimiter);
-    string convertTimeFormat(const string &time);
+    string convertToDegreesMinutesSeconds(const string &coordinate, const string &direction);
+    string convertDateTimeFormat(const string &time, const string &date);
     map<string, string> parseKeyValuePairs(const vector<string> &tokens);
 };
 
