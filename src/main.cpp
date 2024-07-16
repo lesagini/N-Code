@@ -5,21 +5,29 @@ int main()
 {
     Parser parser;
     vector<Parser::Data> data = parser.parseFile("data/jogging_path.txt");
-
+    vector<std::string> availableNMEASentenceConfig = {"GPGGA", "GPGLL", "GPRMC"};
+    int index = 0;
     for (const auto &entry : data)
     {
-        cout << "Type: " << entry.type << ", Latitude: " << entry.latitude
-             << ", Longitude: " << entry.longitude << ", Time: " << entry.time;
-        if (entry.type == "$GPGGA")
+        ++index;
+        if (find(availableNMEASentenceConfig.begin(), availableNMEASentenceConfig.end(), entry.type) != availableNMEASentenceConfig.end())
         {
-            cout << ", Number Of Satellites: " << entry.satellites;
+            cout << index << ". NMEA Type: " << entry.type << ", Latitude: " << entry.latitude
+                 << ", Longitude: " << entry.longitude << ", TimeStamp: " << entry.timestamp;
+            if (entry.type == "GPGGA")
+            {
+                cout << ", Number Of Satellites: " << entry.satellites;
+            }
+            if (entry.type == "GPRMC")
+            {
+                cout << ", Position Validity: " << entry.positionValidity << ", Speed: " << entry.speed << " knots" << ", Heading: " << entry.course << "\370";
+            }
+            cout << endl;
         }
-        if (entry.type == "$GPRMC")
+        else
         {
-            cout << ", Position Validity: " << entry.positionValidity << ", Speed: " << entry.speed << ", Course: " << entry.course
-                 << ", Date: " << entry.date;
+            cout << index << ".  Please Include Config for: " << entry.type << endl;
         }
-        cout << endl;
     }
 
     return 0;
