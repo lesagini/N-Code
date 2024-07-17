@@ -2,7 +2,7 @@ name: multi-platform CMake checks
 
 on:
   push:
-    branches: [ "feat/workflow" ]
+    branches: [ "develop","feat/workflow" ]
 
 jobs:
   build:
