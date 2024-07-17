@@ -32,13 +32,13 @@ public:
 
     Parser();
     vector<Data> parseFile(const string &filePath);
-
-private:
     Data parseSentence(const string &sentence);
     vector<string> split(const string &s, char delimiter);
     string convertToDegreesMinutesSeconds(const string &coordinate, const string &direction);
     string convertDateTimeFormat(const string &time, const string &date);
     map<string, string> parseKeyValuePairs(const vector<string> &tokens);
+public:
+    bool isTxtFile(const string &filePath);
 };
 
 #endif
