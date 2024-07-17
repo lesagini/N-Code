@@ -4,6 +4,9 @@
 #include <iostream>
 #include <iomanip>
 #include <ctime>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 Parser::Parser() {}
 
@@ -116,22 +119,22 @@ string Parser::convertDateTimeFormat(const string &time, const string &date)
         tm.tm_year = std::stoi("20" + date.substr(4, 2)) - 1900;
         time_t t = mktime(&tm);
         std::tm gmtm;
-        #ifdef _WIN32
-        gmtime_s(&gmtm, &t);  // Windows
-        #else
-        gmtime_r(&t, &gmtm);  // Unix-like
-        #endif
+#ifdef _WIN32
+        gmtime_s(&gmtm, &t); // Windows
+#else
+        gmtime_r(&t, &gmtm); // Unix-like
+#endif
 
         strftime(buffer, sizeof(buffer), "%a, %d %b %Y %H:%M:%S UTC", &gmtm);
         return string(buffer);
     }
     time_t t = mktime(&tm);
     std::tm gmtm;
-    #ifdef _WIN32
-    gmtime_s(&gmtm, &t);  // Windows
-    #else
-    gmtime_r(&t, &gmtm);  // Unix-like
-    #endif
+#ifdef _WIN32
+    gmtime_s(&gmtm, &t); // Windows
+#else
+    gmtime_r(&t, &gmtm); // Unix-like
+#endif
 
     strftime(buffer, sizeof(buffer), "%H:%M:%S UTC", &gmtm);
     return string(buffer);
@@ -147,4 +150,10 @@ vector<string> Parser::split(const string &s, char delimiter)
         tokens.push_back(token);
     }
     return tokens;
+}
+
+bool Parser::isTxtFile(const string &filePath)
+{
+    // Check if the file extension is ".txt"
+    return fs::path(filePath).extension() == ".txt";
 }
